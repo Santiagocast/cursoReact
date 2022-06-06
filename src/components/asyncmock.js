@@ -30,14 +30,6 @@ const products = [
         price: 25000,
         pictureUrl:'https://img.remediosdigitales.com/de1542/lamborghini-huracan_evo-2019-1280-01/1366_2000.jpg',
         category:"Alquiler auto"  
-    },
-    {
-        id: '5',
-        tittle: 'Tren' ,
-        description:'Pasaje de tren en destino' ,
-        price: 5000,
-        pictureUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-8zpTMg4sssPSWnhhMg95UEScqM0EO2OefQ&usqp=CAU',
-        category:"Transporte"  
     }
 
 ]

@@ -6,11 +6,11 @@ const Item = ({id,tittle ,description,price, pictureUrl,category }) =>{
             </div>
             <div className="card-body">
                 <img className ="card-img-top" src={pictureUrl} alt="" width="90" height="110"></img>
-                <h1 className="card-title pricing-card-title">${price}</h1>
+                <h2 className="card-title pricing-card-title">${price}</h2>
                 <ul className="list-unstyled mt-3 mb-4">
                 <li>{description}</li>
                 </ul>
-                <button type="button" className="btn btn-lg btn-block btn-primary">Agregar al carrito</button>
+                <button type="button" className="btn btn-lg btn btn-outline-secondary">Agregar al carrito</button>
             </div>
             </div>
     )
