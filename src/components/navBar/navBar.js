@@ -33,7 +33,7 @@ const NavBar = ()=>{
                     </ul>
                     <form className="d-flex">
                         <button className="btn btn-outline-light" type="submit">
-                            Carrito <span class="badge bg-secondary">4</span>
+                            Carrito <span className="badge bg-secondary">4</span>
                         </button>
                     </form>
                 </div>

@@ -13,7 +13,6 @@ const ItemListContainer = () =>{
     },[])
 
     return(
-        //<h1>{greeting}</h1>
         <ItemList productos={products}></ItemList>
     )
 }
