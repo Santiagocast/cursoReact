@@ -7,7 +7,6 @@ const Item = ({id,tittle ,description,price, pictureUrl,category }) =>{
                 <h4 className="my-0 font-weight-normal">{tittle}</h4>
             </div>
             <div className="card-body">
-                {console.log(pictureUrl)}
                 <img className ="card-img-top" src={pictureUrl[0].url} alt="" width="90" height="110"></img>
                 <h2 className="card-title pricing-card-title">${price}</h2>
                 <ul className="list-unstyled mt-3 mb-4">

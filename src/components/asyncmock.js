@@ -5,7 +5,15 @@ const products = [
         description:'Vuelo a qatar' ,
         price: 300000,
         pictureUrl:[{url:'https://www.reportur.com/wp-content/uploads/2019/11/qatar-airways.jpg', id:1}, { url:'https://www.lavanguardia.com/files/image_449_220/files/fp/uploads/2021/09/29/61544b62e8c74.r_d.1061-707-2117.jpeg' ,id:2},{url:'https://www.kayak.com.ar/rimg/dimg/39/04/93991e36-city-15839-164d29b1013.jpg?width=400&height=300&xhint=917&yhint=916&crop=true',id:3}],
-        category:"vuelos"  
+        category:"Vuelos"  
+    },
+    {
+        id: '5',
+        tittle: 'Qatar' ,
+        description:'Vuelo a qatar' ,
+        price: 300000,
+        pictureUrl:[{url:'https://www.reportur.com/wp-content/uploads/2019/11/qatar-airways.jpg', id:1}, { url:'https://www.lavanguardia.com/files/image_449_220/files/fp/uploads/2021/09/29/61544b62e8c74.r_d.1061-707-2117.jpeg' ,id:2},{url:'https://www.kayak.com.ar/rimg/dimg/39/04/93991e36-city-15839-164d29b1013.jpg?width=400&height=300&xhint=917&yhint=916&crop=true',id:3}],
+        category:"Vuelos"  
     },
     {
         id: '2',
@@ -29,7 +37,7 @@ const products = [
         description:'Alquiler de auto en destino' ,
         price: 25000,
         pictureUrl:[{url:'https://img.remediosdigitales.com/de1542/lamborghini-huracan_evo-2019-1280-01/1366_2000.jpg', id:1},{url:'https://media.gq.com.mx/photos/604458fef0cc2a1d8969755c/16:9/w_2992,h_1683,c_limit/10%20autos%20que%20quieren%20ser%20el%20mejor%20de%202021%20-%20BMW%204-Series%202021%20(1).jpg', id:2},{url:'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/5K2DYWBZUVFMTE24AWF5ZAWYDM.jpg', id:3}],
-        category:"Alquiler auto"  
+        category:"Autos"  
     }
 
 ]
@@ -47,6 +55,14 @@ export const getProduct = (id) =>{
     return new Promise((res,rej) =>
     setTimeout(()=>{
         res(products.find(p=>p.id == id))
+    },2000)
+    )
+}
+
+export const getProductByCategory = (category) =>{
+    return new Promise((res,rej) =>
+    setTimeout(()=>{
+        res(products.filter(p=>p.category == category))
     },2000)
     )
 }
