@@ -1,7 +1,13 @@
+import Counter from "../Counter/counter";
 import ItemImg from "./itemImg";
 
 const ItemDetail = ({id,tittle,description,price, pictureUrl,category}) =>{
-    return(
+    
+  const handleSumbit = (e)=>{
+    e.preventDefault();
+  }
+  
+  return(
     <main role="main" className="container pt-5">
       <div className="row">
         <div className="col-md-6 blog-main">
@@ -26,22 +32,14 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category}) =>{
       </div>
 
       <aside className="col-md-6 blog-sidebar pt-6 row align-items-center">
-        <div class="p-3 mb-3">
-          <div class="h-100 p-5 text-white bg-dark rounded-3">
+        <div className="p-3 mb-3">
+          <div className="h-100 p-5 text-white bg-dark rounded-3">
             <h2>${price}</h2>
             <p>Descripción: {description}</p>
             <p className="mb-0">Categoría: {category}</p>
 
-            <form className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
-                <div className="col-auto">
-                    <label htmlFor="cantidad" className="col-form-label">Cantidad:</label>
-                </div>
-                <div className="col-md-3">
-                    <input id="cantidad" type="number" className=" form-control" aria-label="Cantidad"></input>
-                </div>
-                <div className="col-auto">
-                    <button className="col-form-label btn btn-outline-light" type="button">Agregar al carrito</button>
-                </div>
+            <form onSubmit={handleSumbit} className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
+               <Counter inicial={1}></Counter>
             </form>
           </div>
         </div>
