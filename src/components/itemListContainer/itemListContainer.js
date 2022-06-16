@@ -14,14 +14,12 @@ const ItemListContainer = () =>{
         if(!category){
             getProducts().then( (res) => {
                 setProducts(res)
-                console.log(res)
             }).finally( ()=>{
                 setLoading(false)    
             })
         }else{
             getProductByCategory(category).then((res)=>{
                 setProducts(res)
-                console.log(res)
             }).finally( ()=>{
                 setLoading(false)    
             })

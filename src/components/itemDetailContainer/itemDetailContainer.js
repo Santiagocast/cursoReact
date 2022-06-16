@@ -16,7 +16,6 @@ const ItemDetailContainer = () =>{
         getProduct(productId).then( (res) => {
             setProduct(res)
             setPictures(res.pictureUrl)
-            console.log(res);
         }).finally(()=> setLoading(false))
     },[])
 

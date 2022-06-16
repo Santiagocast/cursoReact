@@ -6,12 +6,20 @@ export const CartProvider = ({ children }) =>{
     const [cart, setCart] = useState([])
     const [cantidad, setCantidad] = useState(0)
 
-    const addItem = (item, cantidad)=>{
+    useEffect(() => {
+        let cantidad = 0
+        cart.forEach( (prod) => {
+            cantidad += parseInt(prod.cantidad)
+        })
+        setCantidad(cantidad)
+    }, [cart])
+
+    const addItem = (item)=>{
         if(!isInCart(item.id)){
-            setCart(...cart, item)
-        }
-        
+            setCart([...cart, item])
+        }   
     }
+    console.log(cart);
 
     const removeItem = (id) => {
         const filterCart = cart.filter((prod)=>prod.id !== id)
@@ -23,21 +31,13 @@ export const CartProvider = ({ children }) =>{
     }
 
     const isInCart = (id) =>{
-        return cart.some((prod)=> prod.id === id)
+        return cart.some(prod => prod.id === id)
     }
 
-    //Entender la parte de la cantidad
-    // useEffect(() => {
-    //     let total = 0
-    //     cart.forEach(prod => {
-    //         total += prod.quantity
-    //     })
-    //     setCantidad(total)
-    // }, [cart])
 
     return(
         <CartContext.Provider value={
-            {addItem,removeItem,clear,isInCart}
+            {addItem,removeItem,clear,isInCart, cantidad}
         }>
             {children}
 
