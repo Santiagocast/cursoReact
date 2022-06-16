@@ -45,7 +45,7 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
             <p className="mb-0">Categoría: {category}</p>
 
             <form onSubmit={handleSumbit} className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
-               <Counter inicial={1} onAdd={handleOndAdd}></Counter>
+               <Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
             </form>
           </div>
         </div>

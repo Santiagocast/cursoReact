@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-const Counter = ({inicial, onAdd}) =>{
+const Counter = ({inicial, onAdd, stock}) =>{
     const [count, setCount] = useState(inicial)
     
     const cambiarNro = (e)=>{
-        if(e.target.value>0){
-            setCount(e.target.value)        
+        if(e.target.value <= stock && e.target.value>0){
+            setCount(e.target.value)           
         }
         else{
             document.getElementById("cantidad").value = count;
