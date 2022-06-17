@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import {Link} from "react-router-dom";
 import CartContext from "../../cartContext/cartContext";
 import Counter from "../Counter/counter";
 import ItemImg from "./itemImg";
@@ -7,7 +8,10 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
   const {addItem} = useContext(CartContext)
   const handleOndAdd = (cantidad) =>{
     addItem({id, tittle, price, cantidad})
+    setItemaniadido(1)
   }
+
+  const [itemAniadido, setItemaniadido] = useState(0)
 
   const handleSumbit = (e)=>{
     e.preventDefault();
@@ -43,9 +47,12 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
             <h2>${price}</h2>
             <p>Descripción: {description}</p>
             <p className="mb-0">Categoría: {category}</p>
-
+            <p className="mb-0">Stock: {stock}</p>
             <form onSubmit={handleSumbit} className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
-               <Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
+               { itemAniadido=== 0
+               ?<Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
+               :<Link to='/cart' className="col-form-label btn btn-outline-light">Finalizar compra</Link>
+               }
             </form>
           </div>
         </div>

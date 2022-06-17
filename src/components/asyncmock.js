@@ -59,7 +59,7 @@ export const getProducts = () =>{
 export const getProduct = (id) =>{
     return new Promise((res,rej) =>
     setTimeout(()=>{
-        res(products.find(p=>p.id == id))
+        res(products.find(p=>p.id === id))
     },2000)
     )
 }
@@ -67,7 +67,7 @@ export const getProduct = (id) =>{
 export const getProductByCategory = (category) =>{
     return new Promise((res,rej) =>
     setTimeout(()=>{
-        res(products.filter(p=>p.category == category))
+        res(products.filter(p=>p.category === category))
     },2000)
     )
 }

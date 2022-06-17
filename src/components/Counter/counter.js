@@ -1,14 +1,24 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
+import { Popover } from "bootstrap";
 
 const Counter = ({inicial, onAdd, stock}) =>{
     const [count, setCount] = useState(inicial)
-    
+    const [popover, setPopover] = useState()
+
+    useEffect(()=>{
+        const pop = document.getElementById("cantidad")
+        setPopover(new Popover(pop))
+    },[])
+
     const cambiarNro = (e)=>{
+        
         if(e.target.value <= stock && e.target.value>0){
-            setCount(e.target.value)           
+            setCount(e.target.value)   
+            popover.hide();     
         }
         else{
             document.getElementById("cantidad").value = count;
+            popover.show()
         }
     } 
 
@@ -18,7 +28,7 @@ const Counter = ({inicial, onAdd, stock}) =>{
                 <label htmlFor="cantidad" className="col-form-label">Cantidad:</label>
             </div>
             <div className="col-md-3">
-                <input value={count} onChange={cambiarNro} id="cantidad" type="number" className=" form-control" aria-label="Cantidad"></input>
+                <input value={count} onChange={cambiarNro} id="cantidad" type="number" data-bs-toggle="popover" data-bs-content="Stock insuficiente" className=" form-control" aria-label="Cantidad"></input>
             </div>
             <div className="col-auto">
                 <button onClick={()=>onAdd(count)} className="col-form-label btn btn-outline-light" type="button">
