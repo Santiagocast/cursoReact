@@ -1,12 +1,25 @@
 import { useEffect, useState } from "react"
 import CartItem from "./cartItem"
+import CartContext from "../../cartContext/cartContext";
+import { useContext } from "react";
 
 const CartDetail = ({productos})=>{
     const [total, setTotal] =useState(0)
+    const {clear} = useContext(CartContext)
     useEffect(()=>{
         const totalCalculado = productos.map((prod)=>prod.price * prod.cantidad).reduce((prev,curr)=> prev+curr)
         setTotal(totalCalculado)
     },[productos])
+
+    const limpiarCarrito = () =>{
+        clear()
+    }
+
+    const generarOrden = ()=>{
+        
+    }
+
+
     return(
         <>
             <main role="main" className="container pt-5">
@@ -32,8 +45,8 @@ const CartDetail = ({productos})=>{
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Total: ${total}</h5>
-                        <a href="#" className="btn btn-outline-dark m-2">Generar orden</a>
-                        <a href="#" className="btn btn-outline-dark m-2">Limpiar carrito</a>
+                        <a onClick={generarOrden} className="btn btn-outline-dark m-2">Generar orden</a>
+                        <a onClick={limpiarCarrito} className="btn btn-outline-dark m-2">Limpiar carrito</a>
                     </div>
                 </div>
             </main>
