@@ -32,8 +32,8 @@ const CartDetail = ({productos})=>{
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Total: ${total}</h5>
-                        <a href="#" className="btn btn-primary">Generar orden</a>
-                        <a href="#" className="btn btn-primary">Limpiar carrito</a>
+                        <a href="#" className="btn btn-outline-dark m-2">Generar orden</a>
+                        <a href="#" className="btn btn-outline-dark m-2">Limpiar carrito</a>
                     </div>
                 </div>
             </main>
