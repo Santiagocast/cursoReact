@@ -4,7 +4,9 @@ import {Link} from "react-router-dom";
 
 const CartWidget = ()=>{
     const {cantidad} = useContext(CartContext)
-    
+    if(cantidad == 0){
+        return null
+    }
     return(
         <Link to='/cart' className="btn btn-outline-light">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cart" viewBox="0 0 16 16">
