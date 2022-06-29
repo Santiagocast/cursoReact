@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import {Link} from "react-router-dom";
 import CartContext from "../../cartContext/cartContext";
 import Counter from "../Counter/counter";
-import ItemImg from "./itemImg";
 
 const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =>{
   const {addItem} = useContext(CartContext)
@@ -29,14 +28,6 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
             <div className="carousel-inner">
              <img src={pictureUrl} className="d-block w-100" alt="..."></img>
             </div>
-            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-            </button>
         </div>
         
       </div>

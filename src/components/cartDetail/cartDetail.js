@@ -1,24 +1,13 @@
-import { useEffect, useState } from "react"
 import CartItem from "./cartItem"
 import CartContext from "../../cartContext/cartContext";
 import { useContext } from "react";
+import {Link} from "react-router-dom";
 
 const CartDetail = ({productos})=>{
-    const [total, setTotal] =useState(0)
-    const {clear} = useContext(CartContext)
-    useEffect(()=>{
-        const totalCalculado = productos.map((prod)=>prod.price * prod.cantidad).reduce((prev,curr)=> prev+curr)
-        setTotal(totalCalculado)
-    },[productos])
-
+    const {clear, total} = useContext(CartContext)
     const limpiarCarrito = () =>{
         clear()
     }
-
-    const generarOrden = ()=>{
-        
-    }
-
 
     return(
         <>
@@ -45,7 +34,7 @@ const CartDetail = ({productos})=>{
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Total: ${total}</h5>
-                        <a onClick={generarOrden} className="btn btn-outline-dark m-2">Generar orden</a>
+                        <Link to='/checkout' className="btn btn-outline-dark m-2">Generar orden</Link>
                         <a onClick={limpiarCarrito} className="btn btn-outline-dark m-2">Limpiar carrito</a>
                     </div>
                 </div>
