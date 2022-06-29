@@ -20,7 +20,6 @@ export const CartProvider = ({ children }) =>{
             setCart([...cart, item])
         }   
     }
-    console.log(cart);
 
     const removeItem = (id) => {
         const filterCart = cart.filter((prod)=>prod.id !== id)

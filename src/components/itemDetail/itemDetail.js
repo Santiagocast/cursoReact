@@ -15,7 +15,6 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
   const handleSumbit = (e)=>{
     e.preventDefault();
   }
-  
   return(
     <main role="main" className="container pt-5">
       <div className="row">
@@ -29,9 +28,7 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
              <img src={pictureUrl} className="d-block w-100" alt="..."></img>
             </div>
         </div>
-        
       </div>
-
       <aside className="col-md-6 blog-sidebar pt-6 row align-items-center">
         <div className="p-3 mb-3">
           <div className="h-100 p-5 text-white bg-dark rounded-3">
