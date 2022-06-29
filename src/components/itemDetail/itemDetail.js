@@ -6,8 +6,12 @@ import Counter from "../Counter/counter";
 const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =>{
   const {addItem} = useContext(CartContext)
   const handleOndAdd = (cantidad) =>{
-    addItem({id, tittle, price, cantidad})
-    setItemaniadido(1)
+    if(cantidad<= stock){
+      addItem({id, tittle, price, cantidad})
+      setItemaniadido(1)
+    }else{
+      console.log("Error cantidad"); // Mensaje de error
+    }
   }
 
   const [itemAniadido, setItemaniadido] = useState(0)
