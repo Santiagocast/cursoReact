@@ -1,24 +1,13 @@
-import {useEffect, useState } from "react";
-import { Popover } from "bootstrap";
+import {useState } from "react";
 
 const Counter = ({inicial, onAdd, stock}) =>{
     const [count, setCount] = useState(inicial)
-    const [popover, setPopover] = useState()
-
-    useEffect(()=>{
-        const pop = document.getElementById("cantidad")
-        setPopover(new Popover(pop))
-    },[])
 
     const cambiarNro = (e)=>{
-        
-        if(e.target.value <= stock && e.target.value>0){
-            setCount(e.target.value)   
-            popover.hide();     
-        }
-        else{
-            document.getElementById("cantidad").value = count;
-            popover.show()
+        if(e.target.value>0){
+            setCount(e.target.value)  
+        }else{
+            setCount(inicial)
         }
     } 
 

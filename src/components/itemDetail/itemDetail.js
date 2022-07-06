@@ -17,8 +17,10 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
       setYaEnCarrito(false)
       if(cantidad<= stock){
         addItem({id, tittle, price, cantidad})
+        setFueraStock(false)
       }else{
         setFueraStock(true)
+        setItemaniadido(false)
       }
     }
   }
@@ -48,15 +50,18 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
             <p className="mb-0">Categoría: {category}</p>
             <p className="mb-0">Stock: {stock}</p>
             <form onSubmit={handleSumbit} className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
-               {!itemAniadido?<Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
-                :<>
+              {!itemAniadido?<Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
+              :<>
                   <Link to='/cart' className="col-form-label btn btn-outline-light">Finalizar compra</Link>
                   {yaEnCarrito? <MensajeUser color = "warning" mensaje = "Item ya había sido añadido al carrito"></MensajeUser>
-                  :fueraStock? <MensajeUser color = "danger" mensaje = "No hay stock para añadir al carrito"></MensajeUser>
                   :<MensajeUser  color = "success" mensaje = "Item añadido correctamente"></MensajeUser>
                   }
                </>
-               }
+              }
+              {
+                fueraStock?<MensajeUser color = "danger" mensaje = "No hay stock suficiente para añadir al carrito"></MensajeUser>:
+                <></>
+              }
             </form>
           </div>
         </div>
