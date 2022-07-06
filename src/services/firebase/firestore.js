@@ -21,6 +21,9 @@ export const getProduct = (id) => {
         const documentoFireStore = doc(db,"productos", id)
         getDoc(documentoFireStore).then(res => {
             const producto = {id: res.id, ...res.data()}
+            if (res.data() === undefined){
+                return Promise.reject({ type: 'id_inexistente'})
+            }
             resolve(producto)
         }).catch(error => {
             reject(error)

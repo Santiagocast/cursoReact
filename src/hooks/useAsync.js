@@ -11,7 +11,9 @@ export const useAsync = (funcion, parametroAEscuchar = []) => {
         funcion().then(response => {
             setData(response)
         }).catch(error => {
-            setError(error)
+            if(error.type === 'id_inexistente'){
+                setError(error)
+            }
         }).finally(() => {
             setLoading(false)
         })
