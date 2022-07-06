@@ -1,9 +1,11 @@
 import CartContext from "../../cartContext/cartContext";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { db } from "../../services/firebase";
 import { addDoc, collection, documentId, getDocs, query, where, writeBatch } from "firebase/firestore";
 import Spinner from "../Spinner/spinner";
 import { Link } from "react-router-dom";
+import MensajeUser from "../mensajeUser/mensajeUser";
+
 
 const Checkout = () =>{
     const {total, cart, clear} = useContext(CartContext)
@@ -19,16 +21,22 @@ const Checkout = () =>{
     const [validPhone, setValidPhone] = useState(false)
     const [validDireccion, setValidDireccion] = useState(false)
     const [botonValid, setBotonValid] = useState(false)
+    const [orden,setOrden] = useState(null)
+    const [invalidEmail,setInvalidEmail] = useState(false)
+    const [sinStock,setSinStock] = useState(false)
    
     const handleOnChange = (event, fn, valid)=>{
         fn(event.target.value);
-        event.target.value.length !==0? valid(true) : valid(false)
+        event.target.value === "" ? valid(false) : valid(true)
+    }
+
+    useEffect(()=>{
         if(validNombre && validEmail && validEmailConfirmacion && validPhone && validDireccion){
             setBotonValid(true)
         }else{
             setBotonValid(false)
         }
-    }
+    },[validNombre, validEmail, validEmailConfirmacion, validPhone, validDireccion])
 
     const generarOrden = (e)=>{
         e.preventDefault();
@@ -70,11 +78,10 @@ const Checkout = () =>{
             }).then(({ id }) => {
                 batch.commit()
                 clear()
-                console.log("se genero la orden" + id); //mostrar el id
+                setOrden(id);                
             }).catch(error => {
                 if(error.type === 'out_of_stock') {
-                    //Mostrar error
-                    
+                    setSinStock(true);                    
                 } else {
                     console.log(error)
                 }
@@ -82,8 +89,7 @@ const Checkout = () =>{
                 setLoading(false)
             })
         }else{
-            //Alerta email no coincide
-            console.log("EMAIL no coincide");
+            setInvalidEmail(true)
         }
     }
         
@@ -93,35 +99,52 @@ const Checkout = () =>{
 
     return(
         <>
-        {cart.length === 0?
+        {
+            cart.length === 0?
             <>
-                <h1>No hay items</h1>
-             <Link to='/' className="btn btn-outline-dark">Buscar servicios</Link>
+                {orden !== null?
+                    <MensajeUser color={"success"} mensaje = {"Compra Realizada, el código de tu orden es: " + orden}></MensajeUser>
+                :
+                    <></>
+                }
+                <h1>No hay items en tu carrito</h1>
+                <Link to='/' className="btn btn-outline-dark">Buscar servicios</Link>
             </>
             :
-            <form className="container pt-5">
-            <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setEmail,setValidEmail)} name="email" type="email" className="form-control" id="email" required ></input>
-                <label htmlFor="floatingInput">Email</label>
-            </div>
-            <div className="form-floating mb-3 input-group">
-                <input onChange={(e)=>handleOnChange(e,setEmailConfirmacion,setValidEmailConfirmacion)} name="email" data-bs-toggle="popover" data-bs-content="Stock insuficiente" type="email" className="form-control" id="email" required ></input>
-                <label htmlFor="floatingInput">Confirmar Email</label>
-            </div>
-            <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setNombre, setValidNombre)} name="name" type="text" className="form-control" id="name" required></input>
-                <label htmlFor="floatingInput">Nombre completo</label>
-            </div>
-            <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setPhone, setValidPhone)} name="phone" type="text" className="form-control" id="phone" required></input>
-                <label htmlFor="floatingInput">Telefono</label>
-            </div>
-            <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setDireccion, setValidDireccion)} name="direccion" type="text" className="form-control" id="adress" required></input>
-                <label htmlFor="floatingInput">Direccion</label>
-            </div>
-            <button id="generarOrden" onClick={generarOrden} disabled={!botonValid} className="btn btn-outline-dark m-2">Generar</button>
-        </form>
+            <>
+                {invalidEmail? <MensajeUser color = "danger" mensaje = "El Email de confirmación no coincide con Email ingresado"></MensajeUser>
+                : sinStock? <MensajeUser color = "danger" mensaje = "No hay stock disponible para generar tu orden, volver a generar compra"></MensajeUser> 
+                :<></>
+                }
+                <form className="container pt-5">
+                    <div className="form-floating mb-3">
+                        <input onChange={(e)=>handleOnChange(e,setEmail,setValidEmail)} name="email" type="email" className="form-control" id="email" required ></input>
+                        <label htmlFor="floatingInput">Email</label>
+                    </div>
+                    <div className="form-floating mb-3 input-group">
+                        <input onChange={(e)=>handleOnChange(e,setEmailConfirmacion,setValidEmailConfirmacion)} name="email" data-bs-toggle="popover" data-bs-content="Stock insuficiente" type="email" className="form-control" id="email" required ></input>
+                        <label htmlFor="floatingInput">Confirmar Email</label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input onChange={(e)=>handleOnChange(e,setNombre, setValidNombre)} name="name" type="text" className="form-control" id="name" required></input>
+                        <label htmlFor="floatingInput">Nombre completo</label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input onChange={(e)=>handleOnChange(e,setPhone, setValidPhone)} name="phone" type="text" className="form-control" id="phone" required></input>
+                        <label htmlFor="floatingInput">Telefono</label>
+                    </div>
+                    <div className="form-floating mb-3">
+                        <input onChange={(e)=>handleOnChange(e,setDireccion, setValidDireccion)} name="direccion" type="text" className="form-control" id="adress" required></input>
+                        <label htmlFor="floatingInput">Direccion</label>
+                    </div>
+                    <button id="generarOrden" onClick={generarOrden} disabled={!botonValid} className="btn btn-outline-dark m-2">Generar</button>
+                    {
+                        sinStock?
+                        <Link to='/cart' className="col-form-label btn btn-outline-dark">Volver al carrito</Link>
+                        : <></>
+                    }
+                </form>
+            </>
         }
         </>
     )   

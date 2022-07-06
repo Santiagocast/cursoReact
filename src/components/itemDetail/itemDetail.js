@@ -2,19 +2,26 @@ import { useContext, useState } from "react";
 import {Link} from "react-router-dom";
 import CartContext from "../../cartContext/cartContext";
 import Counter from "../Counter/counter";
+import MensajeUser from "../mensajeUser/mensajeUser";
 
 const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =>{
-  const {addItem} = useContext(CartContext)
+  const {addItem, isInCart} = useContext(CartContext)  
+  const [itemAniadido, setItemaniadido] = useState(false)
+  const [fueraStock, setFueraStock] = useState(false)
+  const [yaEnCarrito, setYaEnCarrito] = useState(false)
   const handleOndAdd = (cantidad) =>{
-    if(cantidad<= stock){
-      addItem({id, tittle, price, cantidad})
-      setItemaniadido(1)
+    setItemaniadido(true)
+    if(isInCart(id)){
+      setYaEnCarrito(true)
     }else{
-      console.log("Error cantidad"); // Mensaje de error
+      setYaEnCarrito(false)
+      if(cantidad<= stock){
+        addItem({id, tittle, price, cantidad})
+      }else{
+        setFueraStock(true)
+      }
     }
   }
-
-  const [itemAniadido, setItemaniadido] = useState(0)
 
   const handleSumbit = (e)=>{
     e.preventDefault();
@@ -41,9 +48,14 @@ const ItemDetail = ({id,tittle,description,price, pictureUrl,category, stock}) =
             <p className="mb-0">Categoría: {category}</p>
             <p className="mb-0">Stock: {stock}</p>
             <form onSubmit={handleSumbit} className=" d-flex justify-content-center row g-1 h-100 p-5 text-white bg-dark rounded-3 ">
-               { itemAniadido=== 0
-               ?<Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
-               :<Link to='/cart' className="col-form-label btn btn-outline-light">Finalizar compra</Link>
+               {!itemAniadido?<Counter inicial={1} stock={stock} onAdd={handleOndAdd}></Counter>
+                :<>
+                  <Link to='/cart' className="col-form-label btn btn-outline-light">Finalizar compra</Link>
+                  {yaEnCarrito? <MensajeUser color = "warning" mensaje = "Item ya había sido añadido al carrito"></MensajeUser>
+                  :fueraStock? <MensajeUser color = "danger" mensaje = "No hay stock para añadir al carrito"></MensajeUser>
+                  :<MensajeUser  color = "success" mensaje = "Item añadido correctamente"></MensajeUser>
+                  }
+               </>
                }
             </form>
           </div>
