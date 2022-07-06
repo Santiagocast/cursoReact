@@ -10,30 +10,45 @@ const Checkout = () =>{
     const [loading, setLoading] = useState(false)
     const [nombre, setNombre] = useState()
     const [email, setEmail] = useState()
+    const [emailConfirmacion, setEmailConfirmacion] = useState()
     const [phone, setPhone] = useState()
     const [direccion, setDireccion] = useState()
+    const [validNombre, setValidNombre] = useState(false)
+    const [validEmail, setValidEmail] = useState(false)
+    const [validEmailConfirmacion, setValidEmailConfirmacion] = useState(false)
+    const [validPhone, setValidPhone] = useState(false)
+    const [validDireccion, setValidDireccion] = useState(false)
+    const [botonValid, setBotonValid] = useState(false)
    
-    const handleOnChange = (event, fn)=>{
-        fn(event.target.value)
+    const handleOnChange = (event, fn, valid)=>{
+        fn(event.target.value);
+        event.target.value.length !==0? valid(true) : valid(false)
+        if(validNombre && validEmail && validEmailConfirmacion && validPhone && validDireccion){
+            setBotonValid(true)
+        }else{
+            setBotonValid(false)
+        }
     }
 
-    const generarOrden = ()=>{
-        setLoading(true)
-        const order = {
-            buyer: {
-                name: nombre,
-                email: email,
-                phone: phone,
-                address: direccion
-            },
-            items: cart,
-            total: total
-        }
-        const batch = writeBatch(db)
-        const ids = cart.map(prod => prod.id)
-        const prodSinStock = []
-        const productosFire = collection(db, 'productos')
-        getDocs(query(productosFire, where(documentId(), 'in', ids)))
+    const generarOrden = (e)=>{
+        e.preventDefault();
+        if(email === emailConfirmacion){
+            setLoading(true)
+            const order = {
+                buyer: {
+                    name: nombre,
+                    email: email,
+                    phone: phone,
+                    address: direccion
+                },
+                items: cart,
+                total: total
+            }
+            const batch = writeBatch(db)
+            const ids = cart.map(prod => prod.id)
+            const prodSinStock = []
+            const productosFire = collection(db, 'productos')
+            getDocs(query(productosFire, where(documentId(), 'in', ids)))
             .then(response => {
                 response.docs.forEach(doc => {
                     const dataDoc = doc.data()
@@ -58,22 +73,22 @@ const Checkout = () =>{
                 console.log("se genero la orden" + id); //mostrar el id
             }).catch(error => {
                 if(error.type === 'out_of_stock') {
-                   //Mostrar error
-
+                    //Mostrar error
+                    
                 } else {
                     console.log(error)
                 }
             }).finally(() => {
                 setLoading(false)
             })
+        }else{
+            //Alerta email no coincide
+            console.log("EMAIL no coincide");
+        }
     }
-
+        
     if(loading){
         return(<Spinner></Spinner>)
-    }
-
-    if(cart.length === 0){
-
     }
 
     return(
@@ -86,23 +101,26 @@ const Checkout = () =>{
             :
             <form className="container pt-5">
             <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setEmail)} name="email" type="email" className="form-control" id="email" required ></input>
+                <input onChange={(e)=>handleOnChange(e,setEmail,setValidEmail)} name="email" type="email" className="form-control" id="email" required ></input>
                 <label htmlFor="floatingInput">Email</label>
             </div>
+            <div className="form-floating mb-3 input-group">
+                <input onChange={(e)=>handleOnChange(e,setEmailConfirmacion,setValidEmailConfirmacion)} name="email" data-bs-toggle="popover" data-bs-content="Stock insuficiente" type="email" className="form-control" id="email" required ></input>
+                <label htmlFor="floatingInput">Confirmar Email</label>
+            </div>
             <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setNombre)} name="name" type="text" className="form-control" id="name" required></input>
+                <input onChange={(e)=>handleOnChange(e,setNombre, setValidNombre)} name="name" type="text" className="form-control" id="name" required></input>
                 <label htmlFor="floatingInput">Nombre completo</label>
             </div>
             <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setPhone)} name="phone" type="text" className="form-control" id="phone" required></input>
+                <input onChange={(e)=>handleOnChange(e,setPhone, setValidPhone)} name="phone" type="text" className="form-control" id="phone" required></input>
                 <label htmlFor="floatingInput">Telefono</label>
             </div>
             <div className="form-floating mb-3">
-                <input onChange={(e)=>handleOnChange(e,setDireccion)} name="direccion" type="text" className="form-control" id="adress" required></input>
+                <input onChange={(e)=>handleOnChange(e,setDireccion, setValidDireccion)} name="direccion" type="text" className="form-control" id="adress" required></input>
                 <label htmlFor="floatingInput">Direccion</label>
             </div>
-            
-            <a onClick={generarOrden} className="btn btn-outline-dark m-2">Generar</a>
+            <button id="generarOrden" onClick={generarOrden} disabled={!botonValid} className="btn btn-outline-dark m-2">Generar</button>
         </form>
         }
         </>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 export const useAsync = (funcion, parametroAEscuchar = []) => {
     const [data, setData] = useState([])
     const [error, setError] = useState()
-    const [isLoading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         setLoading(true)
@@ -19,7 +19,7 @@ export const useAsync = (funcion, parametroAEscuchar = []) => {
     }, parametroAEscuchar)
 
     return {
-        isLoading,
+        loading,
         data,
         error
     }

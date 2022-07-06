@@ -3,9 +3,11 @@ Listado de categorías clickeables (p)
 Complemente CartWidget.js con un icono y ubicalo en navbar
 */
 import logo from "./iconoPartienda.png"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CartWidget  from "../cartWidget/cartWidget";
+
 const NavBar = ()=>{
+    const location = useLocation();
     return(        
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -16,19 +18,19 @@ const NavBar = ()=>{
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to={"/category/Paquetes"} className="nav-link active" aria-current="page" href="#">Paquetes</Link>
+                            <Link to={"/category/Paquetes"} className={location.pathname === "/category/Paquetes"? "nav-link " + "active" : "nav-link "} aria-current="page" href="#">Paquetes</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/category/Vuelos"} className="nav-link" href="#">Vuelos</Link>
+                            <Link to={"/category/Vuelos"} className={location.pathname === "/category/Vuelos"? "nav-link " + "active" : "nav-link "} href="#">Vuelos</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/category/Alojamientos"} className="nav-link" href="#">Alojamientos</Link>
+                            <Link to={"/category/Alojamientos"} className={location.pathname === "/category/Alojamientos"? "nav-link " + "active" : "nav-link "} href="#">Alojamientos</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/category/Excursiones"} className="nav-link" href="#">Excursiones</Link>
+                            <Link to={"/category/Excursiones"} className={location.pathname === "/category/Excursiones"? "nav-link " + "active" : "nav-link "} href="#">Excursiones</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/category/Autos"} className="nav-link" href="#">Alquiler de autos</Link>
+                            <Link to={"/category/Autos"} className={location.pathname === "/category/Autos"? "nav-link " + "active" : "nav-link "} href="#">Alquiler de autos</Link>
                         </li>
                         
                     </ul>
